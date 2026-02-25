@@ -43,6 +43,7 @@
             box-shadow: 0 25px 40px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             text-align: center;
+            position: relative; /* برای مکان‌دهی دکمه مطلق */
         }
 
         h1 {
@@ -60,32 +61,37 @@
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .back-btn {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 12px 35px;
-            background: rgba(255, 255, 255, 0.15);
+        /* استایل دکمه برگشت کوچک در بالا راست */
+        .back-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 30px;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-size: 1.8rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .note {
-            margin-top: 20px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
+        /* حذف دکمه قبلی */
+        .old-back-btn {
+            display: none;
         }
 
         @media (max-width: 600px) {
@@ -95,16 +101,24 @@
             iframe {
                 height: 300px;
             }
+            .back-button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+                top: 10px;
+                right: 10px;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="player-container">
+        <!-- دکمه برگشت کوچک در بالا راست -->
+        <a href="index.html" class="back-button" title="بازگشت به صفحه اصلی">←</a>
         <h1>📡 شبکه یک - پخش زنده</h1>
         <iframe src="https://www.telewebion.com/embed/live/IRIB_TV1" allowfullscreen></iframe>
-        <a href="index.html" class="back-btn">← بازگشت به صفحه اصلی</a>
+        <!-- دکمه قدیمی حذف شده -->
     </div>
 </body>
 </html>
-
