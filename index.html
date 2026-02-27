@@ -8,274 +8,289 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 :root{
-    --bg1:#0f2027;
-    --bg2:#203a43;
-    --bg3:#2c5364;
-    --glass:rgba(255,255,255,0.1);
-    --border:rgba(255,255,255,0.2);
-    --text:#fff;
-    --accent:#00c6ff;
-    --light-header:#f5f5f5;
-    --light-footer:#f5f5f5;
-    --light-text:#000;
+--bg1:#0f2027;
+--bg2:#203a43;
+--bg3:#2c5364;
+--glass:rgba(255,255,255,0.08);
+--border:rgba(255,255,255,0.2);
+--text:#fff;
+--light-text:#000;
 }
+
+/* پایه */
+html,body{
+margin:0;
+padding:0;
+height:100%;
+font-family:'Vazirmatn',sans-serif;
+overflow-x:hidden;
+overflow-y:auto;
+transition:.5s;
+}
+
 body{
-    margin:0;
-    font-family:'Vazirmatn',sans-serif;
-    background:linear-gradient(135deg,#fff,#e0e0e0,#f5f5f5);
-    color:var(--light-text);
-    min-height:100vh;
-    overflow-x:hidden;
-    padding-top:80px;
-    transition:.5s;
+background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+color:var(--text);
 }
-body.dark{
-    background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
-    color:var(--text);
+
+body.light{
+background:linear-gradient(135deg,#fff,#e0e0e0,#f5f5f5);
+color:var(--light-text);
 }
+
+/* HEADER و FOOTER */
 header{
-    position:fixed;
-    top:0;
-    left:50%;
-    transform:translateX(-50%);
-    width:95%;
-    max-width:1200px;
-    height:50px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 15px;
-    background:rgba(245,245,245,0.95);
-    color:var(--light-text);
-    border-radius:0 0 20px 20px;
-    border:1px solid rgba(0,0,0,0.1);
-    z-index:50;
-    box-sizing:border-box;
-    backdrop-filter:blur(15px);
-    transition:.5s;
-}
-body.dark header{
-    background:var(--glass);
-    color:var(--text);
-}
-.logo{font-weight:700;font-size:18px}
-.title{font-size:16px;font-weight:500}
-.toggle-container{
-    width:35px;
-    height:35px;
-    border-radius:50%;
-    background:linear-gradient(145deg,#FFD700,#FFA500);
-    box-shadow:0 3px 10px rgba(0,0,0,.2);
-    cursor:pointer;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    transition:.5s;
-}
-body.dark .toggle-container{
-    background:linear-gradient(145deg,#F0E68C,#B0C4DE);
-}
-.toggle-circle{
-    width:22px;
-    height:22px;
-    border-radius:50%;
-    background:#fff;
-    position:relative;
-    transition:.5s;
-}
-body.dark .toggle-circle{
-    background:#f0f0f0;
-}
-.toggle-circle::before{
-    content:'☀';
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    font-size:14px;
-    transition:.5s;
-}
-body.dark .toggle-circle::before{
-    content:'🌙';
-}
-
-.center{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:calc(100vh - 80px);
-    flex-direction:column;
-    position:relative;
-    z-index:1;
-}
-
-#home .choice-container{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:25px;
-    width:90%;
-    max-width:400px;
-}
-#home .choice{
-    padding:25px 10px;
-    text-align:center;
-    cursor:pointer;
-    font-size:16px;
-    position:relative;
-    overflow:hidden;
-    border-radius:20px;
-    background:rgba(255,255,255,0.6);
-    backdrop-filter:blur(15px);
-    border:1px solid rgba(0,0,0,0.1);
-    transition:.4s;
-}
-body.dark #home .choice{
-    background:var(--glass);
-    border:1px solid var(--border);
-}
-#home .choice::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(45deg,transparent,rgba(0,0,0,.1),transparent);
-    transform:translateX(-100%);
-    transition:.6s;
-    border-radius:20px;
-}
-body.dark #home .choice::after{
-    background:linear-gradient(45deg,transparent,rgba(255,255,255,.15),transparent);
-}
-#home .choice:hover::after{
-    transform:translateX(100%);
-}
-#home .choice:hover{
-    transform:scale(1.05);
-}
-
-.section{
-    display:none;
-    padding:15px;
-    max-width:900px;
-    margin:0 auto;
-    position:relative;
-    z-index:1;
-}
-.section.active{
-    display:block;
-    animation:fade .4s ease;
-}
-@keyframes fade{
-    from{opacity:0;transform:translateY(10px)}
-    to{opacity:1;transform:translateY(0)}
-}
-
-.player-header-box{
-    background:var(--glass);
-    backdrop-filter:blur(20px);
-    border-radius:20px;
-    box-shadow:0 4px 15px rgba(0,0,0,.1);
-    padding:15px;
-    margin:0 15px 15px 15px;
-    border:1px solid var(--border);
-}
-body.dark .player-header-box{
-    background:var(--glass);
-}
-
-.section-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    width:100%;
-}
-.section-header .page-title{font-weight:600;font-size:14px}
-.section-header .back-btn{cursor:pointer;opacity:.7;transition:.3s}
-.section-header .back-btn:hover{opacity:1}
-
-/* کارت‌ها دو ردیف */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-    margin-top:15px;
-    width:calc(100% - 30px);
-    max-width:880px;
-    margin:0 auto;
-}
-
-.card{
-    padding:12px;
-    text-align:center;
-    cursor:pointer;
-    border-radius:15px;
-    font-size:14px;
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(10px);
-    border:1px solid rgba(0,0,0,0.05);
-    transition:.3s;
-    position:relative;
-}
-body.dark .card{
-    background:var(--glass);
-    border:1px solid var(--border);
-}
-.card:hover{
-    transform:scale(1.05);
-    box-shadow:0 8px 20px rgba(0,0,0,.25);
-}
-body.dark .card:hover{
-    box-shadow:0 8px 20px rgba(0,0,0,.4);
-}
-
-.player-box{
-    margin:0;
-    padding:0;
-    background:#000;
-    border-radius:15px;
-    overflow:hidden;
-    width:100%;
-}
-video{
-    width:100%;
-    border-radius:15px;
-    background:#000;
-    display:block;
-    max-height:50vh;
+position:fixed;
+top:1px;
+left:calc(50% + 3px);
+transform:translateX(-50%);
+width:calc(95% - 8px);
+max-width:1199px;
+height:54px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 14px;
+background:var(--glass);
+border-radius:0 0 20px 20px;
+backdrop-filter:blur(15px);
+z-index:100;
+transition:.5s;
 }
 
 footer{
-    position:fixed;
-    bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-    width:95%;
-    max-width:1200px;
-    height:50px;
-    background:rgba(245,245,245,0.95);
-    color:var(--light-text);
-    backdrop-filter:blur(15px);
-    border-radius:20px 20px 0 0;
-    border:1px solid rgba(0,0,0,0.1);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-weight:500;
-    transition:.5s;
+position:fixed;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:95%;
+max-width:1200px;
+height:50px;
+background:var(--glass);
+border-radius:20px 20px 0 0;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:14px;
+backdrop-filter:blur(15px);
+transition:.5s;
 }
-body.dark footer{
-    background:var(--glass);
-    color:var(--text);
-    border:1px solid var(--border);
+
+/* حالت لایت برای HEADER و FOOTER */
+body.light header{
+background:rgba(245,245,245,0.95);
+border:1px solid rgba(0,0,0,0.2);
+color:#000;
+}
+
+body.light footer{
+background:rgba(245,245,245,0.95);
+border:1px solid rgba(0,0,0,0.2);
+color:#000;
+}
+
+.logo{font-weight:700}
+.title{font-weight:500}
+
+/* دکمه دارک مود */
+.toggle-container{
+width:40px;
+height:40px;
+border-radius:50%;
+background:linear-gradient(145deg,#1e1e1e,#2c2c2c);
+box-shadow:0 4px 15px rgba(0,0,0,.4);
+cursor:pointer;
+display:flex;
+justify-content:center;
+align-items:center;
+transition:.4s;
+}
+
+.toggle-circle{
+width:26px;
+height:26px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:14px;
+transition:.4s;
+}
+
+body:not(.light) .toggle-circle{
+background:linear-gradient(145deg,#ffffff,#cfcfcf);
+color:#111;
+}
+
+body.light .toggle-container{
+background:linear-gradient(145deg,#FFD700,#FFA500);
+}
+
+body.light .toggle-circle{
+background:#fff;
+color:#111;
+}
+
+/* صفحه اصلی */
+.center{
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+height:100vh;
+}
+
+.choice-container{
+display:grid;
+gap:25px;
+width:90%;
+max-width:400px;
+}
+
+.choice{
+padding:25px 10px;
+text-align:center;
+cursor:pointer;
+font-size:16px;
+border-radius:20px;
+background:var(--glass);
+backdrop-filter:blur(15px);
+border:1px solid var(--border);
+transition:.4s;
+}
+
+.choice:hover{
+transform:scale(1.05);
+box-shadow:0 8px 20px rgba(0,0,0,.3);
+}
+
+/* صفحات داخلی */
+.section{
+display:none;
+padding:15px;
+max-width:900px;
+margin:0 auto;
+}
+
+.section.active{
+display:block;
+padding-top:80px;
+}
+
+.player-header-box{
+background:var(--glass);
+backdrop-filter:blur(20px);
+border-radius:20px;
+padding:15px;
+margin-bottom:15px;
+border:1px solid var(--border);
+transition:.4s;
+}
+
+.player-box{
+position:relative;
+background:#000;
+border-radius:15px;
+overflow:hidden;
+border:1px solid rgba(255,255,255,0.15);
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* حالت لایت پلیر */
+body.light .player-header-box{
+background:rgba(230,230,230,0.95);
+border:1px solid rgba(0,0,0,0.2);
+color:#000;
+}
+
+body.light .player-box{
+border:1px solid rgba(0,0,0,0.3);
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* بخش داخلی */
+.section-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.section-divider{
+height:1px;
+background:rgba(255,255,255,0.2);
+margin:10px 0 15px 0;
+transition:.3s;
+}
+
+body.light .section-divider{
+background:rgba(0,0,0,0.2);
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.card{
+padding:12px;
+text-align:center;
+cursor:pointer;
+border-radius:15px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,255,255,0.15);
+transition:.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+/* حالت لایت برای choice و card */
+body.light .choice{
+background:rgba(200,200,200,0.9);
+color:#000;
+border:1px solid rgba(0,0,0,0.2);
+}
+
+body.light .card{
+background:rgba(220,220,220,0.9);
+color:#000;
+border:1px solid rgba(0,0,0,0.2);
+}
+
+video{
+width:100%;
+max-height:50vh;
+display:block;
+}
+
+.loading{
+position:absolute;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,0,0,.6);
+color:#fff;
+display:none;
 }
 </style>
 </head>
-<body class="light">
+
+<body>
+
 <header>
 <div class="logo">LOGO</div>
 <div class="title">پخش زنده</div>
-<div class="toggle-container" id="themeToggle"><div class="toggle-circle"></div></div>
+<div class="toggle-container" onclick="toggleTheme()">
+<div class="toggle-circle" id="themeIcon">🌙</div>
+</div>
 </header>
 
+<!-- صفحه اصلی -->
 <div id="home" class="center">
 <div class="choice-container">
 <div class="choice" onclick="openSection('tv')">📺 تلویزیون</div>
@@ -288,8 +303,15 @@ body.dark footer{
 <!-- بخش تلویزیون -->
 <div id="tv" class="section">
 <div class="player-header-box">
-<div class="section-header"><div class="page-title">شبکه‌های تلویزیونی</div><div class="back-btn" onclick="goHome()">⬅ بازگشت</div></div>
-<div class="player-box"><video id="tvPlayer" poster="https://upload.wikimedia.org/wikipedia/commons/3/3e/Television_set_icon.svg" controls></video></div>
+<div class="section-header">
+<div>شبکه‌های تلویزیونی</div>
+<div onclick="goHome()">⬅ بازگشت</div>
+</div>
+<div class="section-divider"></div>
+<div class="player-box">
+<div class="loading">در حال اتصال...</div>
+<video id="tvPlayer" controls playsinline></video>
+</div>
 </div>
 <div class="grid">
 <div class="card" onclick="playVideo('tvPlayer','https://lenz.splus.ir/PLTV/88888888/224/3221226637/4.m3u8')">شبکه یک</div>
@@ -302,102 +324,147 @@ body.dark footer{
 <!-- بخش رادیو -->
 <div id="radio" class="section">
 <div class="player-header-box">
-<div class="section-header"><div class="page-title">رادیو</div><div class="back-btn" onclick="goHome()">⬅ بازگشت</div></div>
-<div class="player-box"><video id="radioPlayer" poster="https://upload.wikimedia.org/wikipedia/commons/3/3e/Television_set_icon.svg" controls></video></div>
+<div class="section-header">
+<div>رادیو</div>
+<div onclick="goHome()">⬅ بازگشت</div>
 </div>
-<div class="grid"><div class="card" onclick="playVideo('radioPlayer','https://lenz.splus.ir/PLTV/88888888/224/3221226637/4.m3u8')">رادیو جوان</div></div>
+<div class="section-divider"></div>
+<div class="player-box">
+<div class="loading">در حال اتصال...</div>
+<video id="radioPlayer" controls playsinline></video>
+</div>
+</div>
+<div class="grid">
+<div class="card" onclick="playVideo('radioPlayer','https://lenz.splus.ir/PLTV/88888888/224/3221226977/1.m3u8')">رادیو ایران</div>
+<div class="card" onclick="playVideo('radioPlayer','https://lenz.splus.ir/PLTV/88888888/224/3221226977/1.m3u8')">رادیو جوان</div>
+</div>
 </div>
 
-<!-- بخش اماکن متبرکه -->
+<!-- اماکن متبرکه -->
 <div id="holy" class="section">
 <div class="player-header-box">
-<div class="section-header"><div class="page-title">اماکن متبرکه</div><div class="back-btn" onclick="goHome()">⬅ بازگشت</div></div>
-<div class="player-box"><video id="holyPlayer" poster="https://upload.wikimedia.org/wikipedia/commons/3/3e/Television_set_icon.svg" controls></video></div>
+<div class="section-header">
+<div>اماکن متبرکه</div>
+<div onclick="goHome()">⬅ بازگشت</div>
 </div>
-<div class="grid"><div class="card" onclick="playVideo('holyPlayer','https://lenz.splus.ir/PLTV/88888888/224/3221226637/4.m3u8')">حرم امام رضا</div></div>
+<div class="section-divider"></div>
+<div class="player-box">
+<div class="loading">در حال اتصال...</div>
+<video id="holyPlayer" controls playsinline></video>
+</div>
+</div>
+<div class="grid">
+<div class="card" onclick="playVideo('holyPlayer','https://lenz.splus.ir/PLTV/88888888/224/3221227010/1.m3u8')">حرم امام رضا</div>
+<div class="card" onclick="playVideo('holyPlayer','https://lenz.splus.ir/PLTV/88888888/224/3221227010/1.m3u8')">حرم حضرت معصومه</div>
+</div>
 </div>
 
-<!-- بخش شبکه اختصاصی -->
+<!-- شبکه اختصاصی -->
 <div id="private" class="section">
 <div class="player-header-box">
-<div class="section-header"><div class="page-title">شبکه اختصاصی شما</div><div class="back-btn" onclick="goHome()">⬅ بازگشت</div></div>
-<div class="player-box"><video id="privatePlayer" poster="https://upload.wikimedia.org/wikipedia/commons/3/3e/Television_set_icon.svg" controls></video></div>
+<div class="section-header">
+<div>شبکه اختصاصی</div>
+<div onclick="goHome()">⬅ بازگشت</div>
 </div>
-<div class="grid"><div class="card" onclick="playVideo('privatePlayer','https://lenz.splus.ir/PLTV/88888888/224/3221226637/4.m3u8')">پخش اختصاصی</div></div>
+<div class="section-divider"></div>
+<div class="player-box">
+<div class="loading">در حال اتصال...</div>
+<video id="privatePlayer" controls playsinline></video>
+</div>
+</div>
+<div class="grid">
+<div class="card" onclick="playVideo('privatePlayer','https://lenz.splus.ir/PLTV/88888888/224/3221226637/4.m3u8')">پخش اختصاصی</div>
+</div>
 </div>
 
-<footer>کاری از کانال پخش زنده</footer>
+<footer>© کاری از کانال livetv@ / نسخه: 1.0.1</footer>
 
 <script>
-let currentHls = null;
-let currentPlayer = null;
-
-// بارگذاری تم از localStorage
-const body = document.body;
-if(localStorage.getItem('theme')==='dark') body.classList.add('dark');
+let currentHls=null;
+let currentPlayer=null;
 
 function openSection(id){
-    document.getElementById('home').style.display='none';
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+document.getElementById('home').style.display='none';
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
 }
 
 function goHome(){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.getElementById('home').style.display='flex';
-    stopCurrentPlayer();
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.getElementById('home').style.display='flex';
+stopPlayer();
 }
 
-function stopOtherPlayers(exceptId){
-    document.querySelectorAll('video').forEach(v=>{
-        if(v.id !== exceptId){
-            v.pause();
-            v.src='';
-        }
-    });
-    if(currentHls && currentPlayer && currentPlayer.id !== exceptId){
-        currentHls.destroy();
-        currentHls = null;
-    }
+function stopPlayer(){
+if(currentPlayer){
+currentPlayer.pause();
+currentPlayer.removeAttribute('src');
+currentPlayer.load();
+}
+if(currentHls){
+currentHls.destroy();
+currentHls=null;
+}
 }
 
-function stopCurrentPlayer(){
-    if(currentPlayer){
-        currentPlayer.pause();
-        currentPlayer.src='';
-    }
-    if(currentHls){
-        currentHls.destroy();
-        currentHls = null;
-    }
-}
+function playVideo(id,url){
+stopPlayer();
+const video=document.getElementById(id);
+const loader=video.parentElement.querySelector('.loading');
+loader.style.display='flex';
+currentPlayer=video;
 
-function loadHLS(id,url){
-    stopOtherPlayers(id);
-    const v = document.getElementById(id);
-    currentPlayer = v;
-
-    if(Hls.isSupported()){
-        if(currentHls) currentHls.destroy();
-        currentHls = new Hls();
-        currentHls.loadSource(url);
-        currentHls.attachMedia(v);
-        currentHls.on(Hls.Events.MANIFEST_PARSED, ()=>v.play());
-    } else {
-        v.src = url;
-        v.play();
-    }
-}
-
-function playVideo(playerId,url){
-    loadHLS(playerId,url);
-}
-
-// تغییر تم و ذخیره در localStorage
-document.getElementById('themeToggle').addEventListener('click',()=>{
-    body.classList.toggle('dark');
-    localStorage.setItem('theme', body.classList.contains('dark')?'dark':'light');
+if(Hls.isSupported()){
+currentHls=new Hls();
+currentHls.loadSource(url);
+currentHls.attachMedia(video);
+currentHls.on(Hls.Events.MANIFEST_PARSED,function(){
+loader.style.display='none';
+video.play();
 });
+}else if(video.canPlayType('application/vnd.apple.mpegurl')){
+video.src=url;
+video.addEventListener('loadedmetadata',function(){
+loader.style.display='none';
+video.play();
+});
+}
+}
+
+function toggleTheme(){
+document.body.classList.toggle('light');
+if(document.body.classList.contains('light')){
+document.getElementById('themeIcon').textContent='☀';
+localStorage.setItem('theme','light');
+document.getElementById('home').style.display='flex';
+}else{
+document.getElementById('themeIcon').textContent='🌙';
+localStorage.setItem('theme','dark');
+document.getElementById('home').style.display='flex';
+}
+document.querySelectorAll('.section').forEach(s=>{
+if(s.classList.contains('active')){
+s.style.display=document.body.classList.contains('light')?'none':'block';
+}
+});
+
+// اطمینان از ظاهر صفحه خانگی در لایت مود
+if(document.body.classList.contains('light')){
+document.getElementById('home').style.display='flex';
+}
+}
+
+// پیش‌فرض دارک مود
+if(!localStorage.getItem('theme') || localStorage.getItem('theme')==='dark'){
+document.body.classList.remove('light');
+document.getElementById('themeIcon').textContent='🌙';
+document.getElementById('home').style.display='flex';
+}else{
+document.body.classList.add('light');
+document.getElementById('themeIcon').textContent='☀';
+document.getElementById('home').style.display='flex';
+}
 </script>
+
 </body>
 </html>
